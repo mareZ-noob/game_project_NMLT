@@ -16,16 +16,21 @@ screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
 font3 = pygame.font.SysFont(None, 32)
 font4 = pygame.font.Font('freesansbold.ttf', 40)
 
+# Load background
 background = pygame.image.load("garden.png").convert()
 background1 = pygame.image.load("bg.jpg").convert()
 background2 = pygame.image.load("spaceshipwindow.jpg").convert()
 background3 = pygame.image.load("casino.jpg").convert()
+cur_bg = background2
 
 # Back, exit button
 back_img = pygame.image.load("hongback.png").convert()
 exit_img = pygame.image.load("red.png").convert()
 solo_img = pygame.image.load("orange.png").convert()
 music_back_img = pygame.image.load("red.png").convert()
+choose_bg_img = pygame.image.load("casino.jpg").convert()
+choose_bg_img2 = pygame.image.load("bg.jpg").convert()
+choose_bg_img3 = pygame.image.load("garden.png").convert()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -44,7 +49,7 @@ DARK_GREEN = (10, 50, 10)
 ORANGE = (238, 141, 70)
 
 
-class Button():
+class Button:
     def __init__(self, x, y, image, scale):
         width = image.get_width()
         height = image.get_height()
@@ -70,7 +75,7 @@ class Button():
         # draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-        if action == True:
+        if action:
             main_menu(cur_music)
 
     def exit(self):
@@ -109,7 +114,7 @@ class Button():
         # draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
         if action2 == True:
-            main_game(cur_music)
+            main_game(cur_music, cur_bg)
 
     def return_music(self):
         action3 = False
@@ -130,12 +135,38 @@ class Button():
 
         return action3
 
+    def choose_background(self):
+        action4 = False
+        # mouse position
+        pos = pygame.mouse.get_pos()
 
+        # check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
+        if self.rect.collidepoint(pos):
+            if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
+                self.clicked = True
+                action4 = True
+
+        if pygame.mouse.get_pressed()[0] == 0:
+            self.clicked = False
+
+        # draw button on screen
+        screen.blit(self.image, (self.rect.x, self.rect.y))
+
+        # if action4:
+        #     return main_menu(cur_music)
+        return action4
+
+
+# Load button
 back_button = Button(0, 0, back_img, 0.4)
 exit_button = Button(500, 400, exit_img, 1)
 solo_button = Button(100, 250, solo_img, 1)
 music_back_button = Button(0, 0, back_img, 0.4)
+choose_bg_button = Button(100, 300, choose_bg_img, 0.2)
+choose_bg_button2 = Button(300, 300, choose_bg_img2, 0.2)
+choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.1)
 cur_music = 'LanCuoi.wav'
+
 
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
@@ -162,27 +193,22 @@ def main_menu(cur_music):
         if exit_button.exit():
             pygame.quit()
             sys.exit()
-        # Trái, Khoảng cách, Chiều dài, Chiều rộng
-        # Play
-        # button_1 = pygame.Rect(100, 250, 200, 50)
-        # Options
-        button_2 = pygame.Rect(500, 250, 200, 50)
-        # Settings
-        button_3 = pygame.Rect(100, 400, 200, 50)
-
-        # pygame.draw.rect(screen, ORANGE, button_1)
+        # Button
+        button_1 = pygame.Rect(500, 250, 200, 50)
+        button_2 = pygame.Rect(100, 400, 200, 50)
         solo_button.solo()
+        # Text
         draw_text('Solo', font3, BLACK, screen, 180, 265)
-        pygame.draw.rect(screen, MAGENTA, button_2)
-        draw_text('Options', font3, BLACK, screen, 560, 265)
-        pygame.draw.rect(screen, CYAN, button_3)
-        draw_text('Settings', font3, BLACK, screen, 155, 415)
+        pygame.draw.rect(screen, MAGENTA, button_1)
+        draw_text('Background', font3, BLACK, screen, 540, 265)
+        pygame.draw.rect(screen, CYAN, button_2)
+        draw_text('Setting', font3, BLACK, screen, 165, 415)
         draw_text('Quit', font3, BLACK, screen, 575, 415)
 
-        if button_2.collidepoint((mx, my)):
+        if button_1.collidepoint((mx, my)):
             if click:
                 options()
-        if button_3.collidepoint((mx, my)):
+        if button_2.collidepoint((mx, my)):
             if click:
                 settings()
 
@@ -203,37 +229,24 @@ def main_menu(cur_music):
         mainClock.tick(60)
 
 
-def game():
+def options():
     global click
     running = True
     while running:
         screen.blit(background3, (0, 0))
-        back_button.back()
-        draw_text('Difficulty', font4, YELLOW, screen, 325, 80)
-        ox, oy = pygame.mouse.get_pos()
+        if music_back_button.return_music():
+            return main_menu(cur_music)
+        draw_text('Background', font4, YELLOW, screen, 290, 120)
 
-        # Trái, Khoảng cách, Chiều dài, Chiều rộng
-        button_1 = pygame.Rect(300, 200, 200, 50)
-        button_2 = pygame.Rect(300, 300, 200, 50)
-        button_3 = pygame.Rect(300, 400, 200, 50)
-
-        # x,y
-        pygame.draw.rect(screen, BLUE, button_1)
-        draw_text('Easy', font3, BLACK, screen, 375, 215)
-        pygame.draw.rect(screen, MAGENTA, button_2)
-        draw_text('Hard', font3, BLACK, screen, 375, 315)
-        pygame.draw.rect(screen, CYAN, button_3)
-        draw_text('Supper Hard', font3, BLACK, screen, 335, 415)
-        solo_button.solo()
-        if button_1.collidepoint((ox, oy)):
-            if click:
-                pass
-        if button_2.collidepoint((ox, oy)):
-            if click:
-                pass
-        if button_3.collidepoint((ox, oy)):
-            if click:
-                pass
+        if choose_bg_button.choose_background():
+            cur_bg = background3
+            return main_game(cur_music, cur_bg)
+        if choose_bg_button2.choose_background():
+            cur_bg = background1
+            return main_game(cur_music, cur_bg)
+        if choose_bg_button3.choose_background():
+            cur_bg = background
+            return main_game(cur_music, cur_bg)
 
         click = False
         for event in pygame.event.get():
@@ -248,27 +261,8 @@ def game():
         mainClock.tick(60)
 
 
-def options():
-    running = True
-    while running:
-        screen.blit(background3, (0, 0))
-        if music_back_button.return_music():
-            return main_menu(cur_music)
-        draw_text('Options', font4, YELLOW, screen, 330, 80)
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
-                    running = False
-
-        pygame.display.update()
-        mainClock.tick(60)
-
-
 def settings():
-    global click
+    global click, cur_music
     running = True
     while running:
         screen.blit(background3, (0, 0))
@@ -379,7 +373,8 @@ def settings():
         pygame.display.update()
         mainClock.tick(60)
 
-def main_game(cur_music):
+
+def main_game(cur_music, cur_bg):
     BURGER_BEGIN_SPEED = 6
     ACCELERATION = .1
     DOG_DEFAULT_SPEED = 8
@@ -399,13 +394,12 @@ def main_game(cur_music):
     pygame.mixer.music.load(cur_music)
     pygame.mixer.music.set_volume(.4)
 
-
     # Load DOG
     right_dog = pygame.image.load("right_dog.png")
     left_dog = pygame.image.load("left_dog.png")
     dog = right_dog
     dog_rect = dog.get_rect()
-    dog_rect.centerx = WINDOW_WIDTH/2
+    dog_rect.centerx = WINDOW_WIDTH / 2
     dog_rect.bottom = WINDOW_HEIGHT
     meat = pygame.image.load("meat.png")
     meat_rect = meat.get_rect()
@@ -414,23 +408,22 @@ def main_game(cur_music):
     font = pygame.font.Font('font.ttf', 32)
     font2 = pygame.font.Font('font.ttf', 46)
 
-    point_text = font.render(f'Point:  {point}', True, GREEN,BLACK)
+    point_text = font.render(f'Point:  {point}', True, GREEN, BLACK)
     point_text_rect = point_text.get_rect()
     point_text_rect.topleft = (132, 32)
 
-    live_text = font.render(f'Lives:  {lives}',True, GREEN, BLACK)
+    live_text = font.render(f'Lives:  {lives}', True, GREEN, BLACK)
     live_text_rect = live_text.get_rect()
     live_text_rect.topright = (668, 32)
 
     game_over_text = font2.render("GAME OVER, PRESS ENTER TO CONTINUE!", True, ORANGE, GREEN)
     game_over_text_rect = game_over_text.get_rect()
-    game_over_text_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 50)
+    game_over_text_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
 
-    boost_text = font.render(f'BOOST ENERGY:  {boost_level}', True, ORANGE,BLACK)
+    boost_text = font.render(f'BOOST ENERGY:  {boost_level}', True, ORANGE, BLACK)
     boost_text_rect = boost_text.get_rect()
     boost_text_rect.centerx = WINDOW_WIDTH // 2
     boost_text_rect.y = 32
-
 
     # BEGIN GAME
     pygame.mixer.music.play(-1)
@@ -438,7 +431,7 @@ def main_game(cur_music):
     point = 0
     lives = DOG_LIVES
     dog_speed = DOG_DEFAULT_SPEED
-    dog_rect.centerx = WINDOW_WIDTH/2
+    dog_rect.centerx = WINDOW_WIDTH / 2
     dog_rect.bottom = WINDOW_HEIGHT
     meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
     burger_speed = BURGER_BEGIN_SPEED
@@ -492,19 +485,19 @@ def main_game(cur_music):
             meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
 
         # Refresh the SCREEN
-        screen.blit(background2, (0, 0))
+        screen.blit(cur_bg, (0, 0))
         back_button.back()
 
         # Load Text ReRender
-        point_text = font.render(f'Point:  {point}', True, GREEN,BLACK)
-        boost_text = font.render(f'BOOST ENERGY:  {boost_level}', True, ORANGE,BLACK)
-        live_text = font.render(f'Lives:  {lives}',True, GREEN, BLACK)
+        point_text = font.render(f'Point:  {point}', True, GREEN, BLACK)
+        boost_text = font.render(f'BOOST ENERGY:  {boost_level}', True, ORANGE, BLACK)
+        live_text = font.render(f'Lives:  {lives}', True, GREEN, BLACK)
         screen.blit(boost_text, boost_text_rect)
         screen.blit(point_text, point_text_rect)
         screen.blit(live_text, live_text_rect)
-        pygame.draw.line(screen, DARK_GREEN ,(0, 97), (WINDOW_WIDTH, 97),3)
+        pygame.draw.line(screen, DARK_GREEN, (0, 97), (WINDOW_WIDTH, 97), 3)
 
-        #Check lose
+        # Check lose
         if lives == 0:
             pause = True
             game_over_sound.play()
@@ -529,18 +522,16 @@ def main_game(cur_music):
                             meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
                             burger_speed = BURGER_BEGIN_SPEED
 
-        #Load the dog
+        # Load the dog
         screen.blit(dog, dog_rect)
         screen.blit(meat, meat_rect)
 
-        #UPDATE DISPLAY AND SET CLOCK
+        # UPDATE DISPLAY AND SET CLOCK
         pygame.display.update()
         mainClock.tick(60)
 
     pygame.quit()
 
 
-
 main_menu(cur_music)
 pygame.quit()
-
