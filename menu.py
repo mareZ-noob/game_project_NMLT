@@ -25,6 +25,7 @@ background3 = pygame.image.load("casino.jpg").convert()
 back_img = pygame.image.load("hongback.png").convert()
 exit_img = pygame.image.load("red.png").convert()
 solo_img = pygame.image.load("orange.png").convert()
+music_back_img = pygame.image.load("red.png").convert()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -52,7 +53,7 @@ class Button():
         self.rect.topleft = (x, y)
         self.clicked = False
 
-    def draw(self):
+    def back(self):
         action = False
         # mouse position
         pos = pygame.mouse.get_pos()
@@ -70,7 +71,7 @@ class Button():
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         if action == True:
-            main_menu()
+            main_menu(cur_music)
 
     def exit(self):
         action1 = False
@@ -107,9 +108,8 @@ class Button():
 
         # draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
-
         if action2 == True:
-            main_game()
+            main_game(cur_music)
 
     def return_music(self):
         action3 = False
@@ -134,7 +134,8 @@ class Button():
 back_button = Button(0, 0, back_img, 0.4)
 exit_button = Button(500, 400, exit_img, 1)
 solo_button = Button(100, 250, solo_img, 1)
-
+music_back_button = Button(0, 0, back_img, 0.4)
+cur_music = 'LanCuoi.wav'
 
 def draw_text(text, font, color, surface, x, y):
     textobj = font.render(text, 1, color)
@@ -143,19 +144,17 @@ def draw_text(text, font, color, surface, x, y):
     surface.blit(textobj, textrect)
 
 
-cur_music = 'LanCuoi.wav'
-mixer.init()
-mixer.music.load(cur_music)
-mixer.music.play(-1)
-
 click = False
 
 
-def main_menu():
+def main_menu(cur_music):
     global click
     running = True
+    pygame.mixer.init()
+    pygame.mixer.music.load(cur_music)
+    pygame.mixer.music.play(-1)
     while running:
-        # screen.fill(WHITE)
+        # Custom
         screen.blit(background3, (0, 0))
         draw_text('Game Menu', font4, YELLOW, screen, 290, 120)
         mx, my = pygame.mouse.get_pos()
@@ -180,10 +179,6 @@ def main_menu():
         draw_text('Settings', font3, BLACK, screen, 155, 415)
         draw_text('Quit', font3, BLACK, screen, 575, 415)
 
-
-        # if button_1.collidepoint((mx, my)):
-        #     if click:
-        #         game()
         if button_2.collidepoint((mx, my)):
             if click:
                 options()
@@ -213,7 +208,7 @@ def game():
     running = True
     while running:
         screen.blit(background3, (0, 0))
-        back_button.draw()
+        back_button.back()
         draw_text('Difficulty', font4, YELLOW, screen, 325, 80)
         ox, oy = pygame.mouse.get_pos()
 
@@ -257,7 +252,8 @@ def options():
     running = True
     while running:
         screen.blit(background3, (0, 0))
-        back_button.draw()
+        if music_back_button.return_music():
+            return main_menu(cur_music)
         draw_text('Options', font4, YELLOW, screen, 330, 80)
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -279,9 +275,6 @@ def settings():
         draw_text('Settings', font4, YELLOW, screen, 325, 70)
         draw_text('Choose your music: ', font3, YELLOW, screen, 290, 150)
         px, py = pygame.mouse.get_pos()
-
-        # back_button.draw()
-        back_button.draw()
 
         # Button Trái, Khoảng cách, Chiều dài, Chiều rộng
         button_1 = pygame.Rect(80, 200, 200, 50)
@@ -318,46 +311,58 @@ def settings():
                 mixer.init()
                 mixer.music.load('LanCuoi.wav')
                 mixer.music.play(-1)
+                cur_music = 'LanCuoi.wav'
         if button_2.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('AmongUsThemeSong.wav')
                 mixer.music.play(-1)
+                cur_music = 'AmongUsThemeSong.wav'
         if button_3.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('motngaykhongmua.wav')
                 mixer.music.play(-1)
+                cur_music = 'motngaykhongmua.wav'
         if button_4.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('emtrangtri.wav')
                 mixer.music.play(-1)
+                cur_music = 'emtrangtri.wav'
         if button_5.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('RenaiCirculation.wav')
                 mixer.music.play(-1)
+                cur_music = 'RenaiCirculation.wav'
         if button_6.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('PinkPanther.wav')
                 mixer.music.play(-1)
+                cur_music = 'PinkPanther.wav'
         if button_7.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('Doraemon.wav')
+                cur_music = 'Doraemon.wav'
                 mixer.music.play(-1)
         if button_8.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('AlwaysWithMe.wav')
                 mixer.music.play(-1)
+                cur_music = 'AlwaysWithMe.wav'
         if button_9.collidepoint((px, py)):
             if click:
                 mixer.init()
                 mixer.music.load('MerryGoRoundofLifeHowl_sMovingCastle.wav')
                 mixer.music.play(-1)
+                cur_music = 'MerryGoRoundofLifeHowl_sMovingCastle.wav'
+
+        if music_back_button.return_music():
+            return main_menu(cur_music)
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -374,7 +379,7 @@ def settings():
         pygame.display.update()
         mainClock.tick(60)
 
-def main_game():
+def main_game(cur_music):
     BURGER_BEGIN_SPEED = 6
     ACCELERATION = .1
     DOG_DEFAULT_SPEED = 8
@@ -391,7 +396,7 @@ def main_game():
     miss_sound = pygame.mixer.Sound("miss.mp3")
     boost_sound = pygame.mixer.Sound("boost_sound.wav")
     game_over_sound = pygame.mixer.Sound("gameover.wav")
-    pygame.mixer.music.load('AmongUsThemeSong.wav')
+    pygame.mixer.music.load(cur_music)
     pygame.mixer.music.set_volume(.4)
 
 
@@ -488,7 +493,7 @@ def main_game():
 
         # Refresh the SCREEN
         screen.blit(background2, (0, 0))
-        back_button.draw()
+        back_button.back()
 
         # Load Text ReRender
         point_text = font.render(f'Point:  {point}', True, GREEN,BLACK)
@@ -536,6 +541,6 @@ def main_game():
 
 
 
-main_menu()
+main_menu(cur_music)
 pygame.quit()
 
