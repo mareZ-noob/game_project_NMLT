@@ -165,7 +165,7 @@ music_back_button = Button(0, 0, back_img, 0.4)
 choose_bg_button = Button(100, 300, choose_bg_img, 0.2)
 choose_bg_button2 = Button(300, 300, choose_bg_img2, 0.2)
 choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.1)
-cur_music = 'LanCuoi.wav'
+cur_music = 'AlwaysWithMe.wav'
 
 
 def draw_text(text, font, color, surface, x, y):
@@ -282,13 +282,13 @@ def settings():
         button_9 = pygame.Rect(520, 400, 200, 50)
 
         pygame.draw.rect(screen, BLUE, button_1)
-        draw_text('Lan Cuoi', font3, BLACK, screen, 135, 215)
+        draw_text('HCTS', font3, BLACK, screen, 150, 215)
         pygame.draw.rect(screen, MAGENTA, button_2)
         draw_text('Among Us', font3, BLACK, screen, 125, 315)
         pygame.draw.rect(screen, CYAN, button_3)
-        draw_text('MNKM', font3, BLACK, screen, 145, 415)
+        draw_text('Don Xuan', font3, BLACK, screen, 130, 415)
         pygame.draw.rect(screen, RED, button_4)
-        draw_text('Em Trang Tri', font3, BLACK, screen, 330, 215)
+        draw_text('In My Life', font3, BLACK, screen, 350, 215)
         pygame.draw.rect(screen, GREEN, button_5)
         draw_text('Renai Circulation', font3, BLACK, screen, 305, 315)
         pygame.draw.rect(screen, MAGENTA, button_6)
@@ -303,9 +303,9 @@ def settings():
         if button_1.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('LanCuoi.wav')
+                mixer.music.load('HCTS.wav')
                 mixer.music.play(-1)
-                cur_music = 'LanCuoi.wav'
+                cur_music = 'HCTS.wav'
         if button_2.collidepoint((px, py)):
             if click:
                 mixer.init()
@@ -315,15 +315,15 @@ def settings():
         if button_3.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('motngaykhongmua.wav')
+                mixer.music.load('DonXuan.wav')
                 mixer.music.play(-1)
-                cur_music = 'motngaykhongmua.wav'
+                cur_music = 'DonXuan.wav'
         if button_4.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('emtrangtri.wav')
+                mixer.music.load('InMyLife.wav')
                 mixer.music.play(-1)
-                cur_music = 'emtrangtri.wav'
+                cur_music = 'InMyLife.wav'
         if button_5.collidepoint((px, py)):
             if click:
                 mixer.init()
