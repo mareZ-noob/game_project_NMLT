@@ -391,7 +391,7 @@ def main_game(cur_music, cur_bg):
     bark_sound = pygame.mixer.Sound("achieve_complete.wav")
     bark_sound.set_volume(0.2)
     miss_sound = pygame.mixer.Sound("siu.wav")
-    boost_sound = pygame.mixer.Sound("boost_sound.wav")
+    boost_sound = pygame.mixer.Sound("quickswhooshingnoise.wav")
     game_over_sound = pygame.mixer.Sound("gameover.wav")
     pygame.mixer.music.load(cur_music)
     pygame.mixer.music.set_volume(.4)
