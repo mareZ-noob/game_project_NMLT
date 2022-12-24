@@ -9,7 +9,7 @@ mainClock = pygame.time.Clock()
 pygame.init()
 
 # Custom
-pygame.display.set_caption('Game Easy')
+pygame.display.set_caption('Catching Apple')
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 650
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
@@ -199,7 +199,7 @@ def main_menu(cur_music):
         button_2 = pygame.Rect(100, 400, 200, 50)
         solo_button.solo()
         # Text
-        draw_text('Solo', font3, BLACK, screen, 180, 265)
+        draw_text('Play', font3, BLACK, screen, 180, 265)
         pygame.draw.rect(screen, MAGENTA, button_1)
         draw_text('Background', font3, BLACK, screen, 540, 265)
         pygame.draw.rect(screen, CYAN, button_2)
