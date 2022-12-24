@@ -21,6 +21,7 @@ background = pygame.image.load("spacegame.jpg").convert()
 background1 = pygame.image.load("bg.jpg").convert()
 background2 = pygame.image.load("spaceshipwindow.jpg").convert()
 background3 = pygame.image.load("casino.jpg").convert()
+background4 = pygame.image.load("ice.jpg").convert()
 cur_bg = background2
 
 # Back, exit button
@@ -28,7 +29,7 @@ back_img = pygame.image.load("hongback.png").convert()
 exit_img = pygame.image.load("red.png").convert()
 solo_img = pygame.image.load("orange.png").convert()
 music_back_img = pygame.image.load("red.png").convert()
-choose_bg_img = pygame.image.load("casino.jpg").convert()
+choose_bg_img = pygame.image.load("ice.jpg").convert()
 choose_bg_img2 = pygame.image.load("bg.jpg").convert()
 choose_bg_img3 = pygame.image.load("spacegame.jpg").convert()
 
@@ -239,7 +240,7 @@ def options():
         draw_text('Background', font4, YELLOW, screen, 290, 120)
 
         if choose_bg_button.choose_background():
-            cur_bg = background3
+            cur_bg = background4
             return main_game(cur_music, cur_bg)
         if choose_bg_button2.choose_background():
             cur_bg = background1
