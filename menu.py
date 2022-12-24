@@ -17,7 +17,7 @@ font3 = pygame.font.SysFont(None, 32)
 font4 = pygame.font.Font('freesansbold.ttf', 40)
 
 # Load background
-background = pygame.image.load("garden.png").convert()
+background = pygame.image.load("spacegame.jpg").convert()
 background1 = pygame.image.load("bg.jpg").convert()
 background2 = pygame.image.load("spaceshipwindow.jpg").convert()
 background3 = pygame.image.load("casino.jpg").convert()
@@ -30,7 +30,7 @@ solo_img = pygame.image.load("orange.png").convert()
 music_back_img = pygame.image.load("red.png").convert()
 choose_bg_img = pygame.image.load("casino.jpg").convert()
 choose_bg_img2 = pygame.image.load("bg.jpg").convert()
-choose_bg_img3 = pygame.image.load("garden.png").convert()
+choose_bg_img3 = pygame.image.load("spacegame.jpg").convert()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -164,7 +164,7 @@ solo_button = Button(100, 250, solo_img, 1)
 music_back_button = Button(0, 0, back_img, 0.4)
 choose_bg_button = Button(100, 300, choose_bg_img, 0.2)
 choose_bg_button2 = Button(300, 300, choose_bg_img2, 0.2)
-choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.1)
+choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.2)
 cur_music = 'AlwaysWithMe.wav'
 
 
