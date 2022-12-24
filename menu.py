@@ -397,13 +397,13 @@ def main_game(cur_music, cur_bg):
     pygame.mixer.music.set_volume(.4)
 
     # Load DOG
-    right_dog = pygame.image.load("right_dog.png")
-    left_dog = pygame.image.load("left_dog.png")
+    right_dog = pygame.image.load("bowl.png")
+    left_dog = pygame.image.load("bowl.png")
     dog = right_dog
     dog_rect = dog.get_rect()
     dog_rect.centerx = WINDOW_WIDTH / 2
     dog_rect.bottom = WINDOW_HEIGHT
-    meat = pygame.image.load("meat.png")
+    meat = pygame.image.load("apple.png")
     meat_rect = meat.get_rect()
 
     # Load Text
