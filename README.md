@@ -1,4 +1,6 @@
-Đồ án Nhập môn lập trình làm game (hứng táo) khi speed run pygame 1 tuần.
+> Đồ án Nhập môn lập trình làm game (hứng táo) khi speed run pygame 1 tuần.
+
+# Catching Apple
 
 Hướng dẫn cài đặt và chạy game:
 - Nên sử dụng Pycharm.
