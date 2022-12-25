@@ -322,9 +322,9 @@ def settings():
         if button_4.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('InMyLife.wav')
+                mixer.music.load('InMyLife_Beat.wav')
                 mixer.music.play(-1)
-                cur_music = 'InMyLife.wav'
+                cur_music = 'InMyLife_Beat.wav'
         if button_5.collidepoint((px, py)):
             if click:
                 mixer.init()
