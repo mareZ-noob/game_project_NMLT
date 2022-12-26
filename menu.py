@@ -18,7 +18,7 @@ font4 = pygame.font.Font('freesansbold.ttf', 40)
 
 # Load background
 background = pygame.image.load("spacegame.jpg").convert()
-background1 = pygame.image.load("bg.jpg").convert()
+background1 = pygame.image.load("forrest.png").convert()
 background2 = pygame.image.load("spaceshipwindow.jpg").convert()
 background3 = pygame.image.load("casino.jpg").convert()
 background4 = pygame.image.load("ice.jpg").convert()
@@ -30,7 +30,7 @@ exit_img = pygame.image.load("red.png").convert()
 solo_img = pygame.image.load("orange.png").convert()
 music_back_img = pygame.image.load("red.png").convert()
 choose_bg_img = pygame.image.load("ice.jpg").convert()
-choose_bg_img2 = pygame.image.load("bg.jpg").convert()
+choose_bg_img2 = pygame.image.load("forrest.png").convert()
 choose_bg_img3 = pygame.image.load("spacegame.jpg").convert()
 
 # Colors
@@ -50,6 +50,7 @@ DARK_GREEN = (10, 50, 10)
 ORANGE = (238, 141, 70)
 
 
+# Class button
 class Button:
     def __init__(self, x, y, image, scale):
         width = image.get_width()
@@ -153,8 +154,6 @@ class Button:
         # draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
-        # if action4:
-        #     return main_menu(cur_music)
         return action4
 
 
@@ -166,6 +165,9 @@ music_back_button = Button(0, 0, back_img, 0.4)
 choose_bg_button = Button(100, 300, choose_bg_img, 0.2)
 choose_bg_button2 = Button(300, 300, choose_bg_img2, 0.2)
 choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.2)
+
+
+# Current music
 cur_music = 'AlwaysWithMe.wav'
 
 
@@ -205,14 +207,14 @@ def main_menu(cur_music):
         pygame.draw.rect(screen, CYAN, button_2)
         draw_text('Setting', font3, BLACK, screen, 165, 415)
         draw_text('Quit', font3, BLACK, screen, 575, 415)
-
+        # Choose
         if button_1.collidepoint((mx, my)):
             if click:
                 options()
         if button_2.collidepoint((mx, my)):
             if click:
                 settings()
-
+        # Exit
         click = False
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -267,7 +269,7 @@ def settings():
     running = True
     while running:
         screen.blit(background3, (0, 0))
-        draw_text('Settings', font4, YELLOW, screen, 325, 70)
+        draw_text('Setting', font4, YELLOW, screen, 335, 70)
         draw_text('Choose your music: ', font3, YELLOW, screen, 290, 150)
         px, py = pygame.mouse.get_pos()
 
@@ -293,7 +295,7 @@ def settings():
         pygame.draw.rect(screen, GREEN, button_5)
         draw_text('Renai Circulation', font3, BLACK, screen, 305, 315)
         pygame.draw.rect(screen, MAGENTA, button_6)
-        draw_text('Pink Panther', font3, BLACK, screen, 330, 415)
+        draw_text('Lan Cuoi', font3, BLACK, screen, 355, 415)
         pygame.draw.rect(screen, BLUE, button_7)
         draw_text('Doraemon', font3, BLACK, screen, 565, 215)
         pygame.draw.rect(screen, MAGENTA, button_8)
@@ -334,9 +336,9 @@ def settings():
         if button_6.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('PinkPanther.wav')
+                mixer.music.load('LanCuoi.wav')
                 mixer.music.play(-1)
-                cur_music = 'PinkPanther.wav'
+                cur_music = 'LanCuoi.wav'
         if button_7.collidepoint((px, py)):
             if click:
                 mixer.init()
@@ -381,7 +383,7 @@ def main_game(cur_music, cur_bg):
     DOG_DEFAULT_SPEED = 8
     DOG_BOOST_SPEED = 20
     DOG_BEGIN_BOOST_LEVEL = 100
-    DOG_LIVES = 4
+    DOG_LIVES = 100
     boost_level = DOG_BEGIN_BOOST_LEVEL
     point = 0
     lives = DOG_LIVES
@@ -389,12 +391,13 @@ def main_game(cur_music, cur_bg):
 
     # Load Music
     bark_sound = pygame.mixer.Sound("achieve_complete.wav")
-    bark_sound.set_volume(0.2)
+    bark_sound.set_volume(0.4)
     miss_sound = pygame.mixer.Sound("siu.wav")
     boost_sound = pygame.mixer.Sound("quickswhooshingnoise.wav")
     game_over_sound = pygame.mixer.Sound("gameover.wav")
+    game_win_sound = pygame.mixer.Sound("goodresult.wav")
     pygame.mixer.music.load(cur_music)
-    pygame.mixer.music.set_volume(.4)
+    # pygame.mixer.music.set_volume(.4)
 
     # Load DOG
     right_dog = pygame.image.load("bowl.png")
@@ -422,13 +425,17 @@ def main_game(cur_music, cur_bg):
     game_over_text_rect = game_over_text.get_rect()
     game_over_text_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
 
+    game_win_text = font2.render("YOU WIN, PRESS F TO PlAY AGAIN!", True, ORANGE, GREEN)
+    game_win_text_rect = game_win_text.get_rect()
+    game_win_text_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
+
     boost_text = font.render(f'BOOST ENERGY:  {boost_level}', True, ORANGE, BLACK)
     boost_text_rect = boost_text.get_rect()
     boost_text_rect.centerx = WINDOW_WIDTH // 2
     boost_text_rect.y = 32
 
     # BEGIN GAME
-    pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(1) # -1 -> delete 425 -> 427, 531 -> 554.
     boost_level = DOG_BEGIN_BOOST_LEVEL
     point = 0
     lives = DOG_LIVES
@@ -514,6 +521,31 @@ def main_game(cur_music, cur_bg):
                         if event.key == pygame.K_RETURN:
                             pause = False
                             game_over_sound.stop()
+                            pygame.mixer.music.play(-1)
+                            boost_level = DOG_BEGIN_BOOST_LEVEL
+                            point = 0
+                            lives = DOG_LIVES
+                            dog_speed = DOG_DEFAULT_SPEED
+                            dog_rect.centerx = WINDOW_WIDTH / 2
+                            dog_rect.bottom = WINDOW_HEIGHT
+                            meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+                            burger_speed = BURGER_BEGIN_SPEED
+
+        # Check win
+        if not pygame.mixer.music.get_busy():
+            stop = True
+            game_win_sound.play()
+            while stop:
+                screen.blit(game_win_text, game_win_text_rect)
+                pygame.display.update()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                        stop = False
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_f:
+                            stop = False
+                            game_win_sound.stop()
                             pygame.mixer.music.play(-1)
                             boost_level = DOG_BEGIN_BOOST_LEVEL
                             point = 0
