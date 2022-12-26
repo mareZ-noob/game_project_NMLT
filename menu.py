@@ -14,24 +14,24 @@ WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 650
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
 font3 = pygame.font.SysFont(None, 32)
-font4 = pygame.font.Font('freesansbold.ttf', 40)
+font4 = pygame.font.Font('./fonts/freesansbold.ttf', 40)
 
 # Load background
-background = pygame.image.load("spacegame.jpg").convert()
-background1 = pygame.image.load("forrest.png").convert()
-background2 = pygame.image.load("spaceshipwindow.jpg").convert()
-background3 = pygame.image.load("casino.jpg").convert()
-background4 = pygame.image.load("ice.jpg").convert()
+background = pygame.image.load("./images/spacegame.jpg").convert()
+background1 = pygame.image.load("./images/forrest.png").convert()
+background2 = pygame.image.load("./images/spaceshipwindow.jpg").convert()
+background3 = pygame.image.load("./images/casino.jpg").convert()
+background4 = pygame.image.load("./images/ice.jpg").convert()
 cur_bg = background2
 
 # Back, exit button
-back_img = pygame.image.load("hongback.png").convert()
-exit_img = pygame.image.load("red.png").convert()
-solo_img = pygame.image.load("orange.png").convert()
-music_back_img = pygame.image.load("red.png").convert()
-choose_bg_img = pygame.image.load("ice.jpg").convert()
-choose_bg_img2 = pygame.image.load("forrest.png").convert()
-choose_bg_img3 = pygame.image.load("spacegame.jpg").convert()
+back_img = pygame.image.load("./images/hongback.png").convert()
+exit_img = pygame.image.load("./images/red.png").convert()
+solo_img = pygame.image.load("./images/orange.png").convert()
+music_back_img = pygame.image.load("./images/red.png").convert()
+choose_bg_img = pygame.image.load("./images/ice.jpg").convert()
+choose_bg_img2 = pygame.image.load("./images/forrest.png").convert()
+choose_bg_img3 = pygame.image.load("./images/spacegame.jpg").convert()
 
 # Colors
 BLACK = (0, 0, 0)
@@ -168,7 +168,7 @@ choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.2)
 
 
 # Current music
-cur_music = 'AlwaysWithMe.wav'
+cur_music = './sounds/AlwaysWithMe.wav'
 
 
 def draw_text(text, font, color, surface, x, y):
@@ -306,57 +306,57 @@ def settings():
         if button_1.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('HCTS.wav')
+                mixer.music.load('./sounds/HCTS.wav')
                 mixer.music.play(-1)
-                cur_music = 'HCTS.wav'
+                cur_music = './sounds/HCTS.wav'
         if button_2.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('AmongUsThemeSong.wav')
+                mixer.music.load('./sounds/AmongUsThemeSong.wav')
                 mixer.music.play(-1)
-                cur_music = 'AmongUsThemeSong.wav'
+                cur_music = './sounds/AmongUsThemeSong.wav'
         if button_3.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('DonXuan.wav')
+                mixer.music.load('./sounds/DonXuan.wav')
                 mixer.music.play(-1)
-                cur_music = 'DonXuan.wav'
+                cur_music = './sounds/DonXuan.wav'
         if button_4.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('InMyLife_Beat.wav')
+                mixer.music.load('./sounds/InMyLife_Beat.wav')
                 mixer.music.play(-1)
-                cur_music = 'InMyLife_Beat.wav'
+                cur_music = './sounds/InMyLife_Beat.wav'
         if button_5.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('RenaiCirculation.wav')
+                mixer.music.load('./sounds/RenaiCirculation.wav')
                 mixer.music.play(-1)
-                cur_music = 'RenaiCirculation.wav'
+                cur_music = './sounds/RenaiCirculation.wav'
         if button_6.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('LanCuoi.wav')
+                mixer.music.load('./sounds/LanCuoi.wav')
                 mixer.music.play(-1)
-                cur_music = 'LanCuoi.wav'
+                cur_music = './sounds/LanCuoi.wav'
         if button_7.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('Doraemon.wav')
-                cur_music = 'Doraemon.wav'
+                mixer.music.load('./sounds/Doraemon.wav')
+                cur_music = './sounds/Doraemon.wav'
                 mixer.music.play(-1)
         if button_8.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('AlwaysWithMe.wav')
+                mixer.music.load('./sounds/AlwaysWithMe.wav')
                 mixer.music.play(-1)
-                cur_music = 'AlwaysWithMe.wav'
+                cur_music = './sounds/AlwaysWithMe.wav'
         if button_9.collidepoint((px, py)):
             if click:
                 mixer.init()
-                mixer.music.load('MerryGoRoundofLifeHowl_sMovingCastle.wav')
+                mixer.music.load('./sounds/MerryGoRoundofLifeHowl_sMovingCastle.wav')
                 mixer.music.play(-1)
-                cur_music = 'MerryGoRoundofLifeHowl_sMovingCastle.wav'
+                cur_music = './sounds/MerryGoRoundofLifeHowl_sMovingCastle.wav'
 
         if music_back_button.return_music():
             return main_menu(cur_music)
@@ -390,28 +390,28 @@ def main_game(cur_music, cur_bg):
     dog_speed = DOG_DEFAULT_SPEED
 
     # Load Music
-    bark_sound = pygame.mixer.Sound("achieve_complete.wav")
+    bark_sound = pygame.mixer.Sound("./sounds/achieve_complete.wav")
     bark_sound.set_volume(0.4)
-    miss_sound = pygame.mixer.Sound("siu.wav")
-    boost_sound = pygame.mixer.Sound("quickswhooshingnoise.wav")
-    game_over_sound = pygame.mixer.Sound("gameover.wav")
-    game_win_sound = pygame.mixer.Sound("goodresult.wav")
+    miss_sound = pygame.mixer.Sound("./sounds/siu.wav")
+    boost_sound = pygame.mixer.Sound("./sounds/quickswhooshingnoise.wav")
+    game_over_sound = pygame.mixer.Sound("./sounds/gameover.wav")
+    game_win_sound = pygame.mixer.Sound("./sounds/goodresult.wav")
     pygame.mixer.music.load(cur_music)
     # pygame.mixer.music.set_volume(.4)
 
     # Load DOG
-    right_dog = pygame.image.load("bowl.png")
-    left_dog = pygame.image.load("bowl.png")
+    right_dog = pygame.image.load("./images/bowl.png")
+    left_dog = pygame.image.load("./images/bowl.png")
     dog = right_dog
     dog_rect = dog.get_rect()
     dog_rect.centerx = WINDOW_WIDTH / 2
     dog_rect.bottom = WINDOW_HEIGHT
-    meat = pygame.image.load("apple.png")
+    meat = pygame.image.load("./images/apple.png")
     meat_rect = meat.get_rect()
 
     # Load Text
-    font = pygame.font.Font('font.ttf', 32)
-    font2 = pygame.font.Font('font.ttf', 46)
+    font = pygame.font.Font('./fonts/font.ttf', 32)
+    font2 = pygame.font.Font('./fonts/font.ttf', 46)
 
     point_text = font.render(f'Point:  {point}', True, GREEN, BLACK)
     point_text_rect = point_text.get_rect()
