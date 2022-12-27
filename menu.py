@@ -9,7 +9,7 @@ mainClock = pygame.time.Clock()
 pygame.init()
 
 # Custom
-pygame.display.set_caption('Catching Apple')
+pygame.display.set_caption('Catching Fruits')
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 650
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
@@ -19,9 +19,9 @@ font4 = pygame.font.Font('./fonts/freesansbold.ttf', 40)
 # Load background
 background = pygame.image.load("./images/spacegame.jpg").convert()
 background1 = pygame.image.load("./images/forrest.png").convert()
-background2 = pygame.image.load("./images/spaceshipwindow.jpg").convert()
+background2 = pygame.image.load("./images/triet.png").convert()
 background3 = pygame.image.load("./images/casino.jpg").convert()
-background4 = pygame.image.load("./images/ice.jpg").convert()
+background4 = pygame.image.load("./images/spirited.jpg").convert()
 cur_bg = background2
 
 # Back, exit button
@@ -29,7 +29,7 @@ back_img = pygame.image.load("./images/hongback.png").convert()
 exit_img = pygame.image.load("./images/red.png").convert()
 solo_img = pygame.image.load("./images/orange.png").convert()
 music_back_img = pygame.image.load("./images/red.png").convert()
-choose_bg_img = pygame.image.load("./images/ice.jpg").convert()
+choose_bg_img = pygame.image.load("./images/spirited.jpg").convert()
 choose_bg_img2 = pygame.image.load("./images/forrest.png").convert()
 choose_bg_img3 = pygame.image.load("./images/spacegame.jpg").convert()
 
@@ -48,7 +48,10 @@ MAGENTA = (255, 0, 255)
 
 DARK_GREEN = (10, 50, 10)
 ORANGE = (238, 141, 70)
+SKY = (0,191,255)
 
+SEA = (84,255,159)
+SALMON = (250,128,114)
 
 # Class button
 class Button:
@@ -159,7 +162,7 @@ class Button:
 
 # Load button
 back_button = Button(0, 0, back_img, 0.4)
-exit_button = Button(500, 400, exit_img, 1)
+exit_button = Button(320, 545, exit_img, 0.8)
 solo_button = Button(100, 250, solo_img, 1)
 music_back_button = Button(0, 0, back_img, 0.4)
 choose_bg_button = Button(100, 300, choose_bg_img, 0.2)
@@ -199,14 +202,17 @@ def main_menu(cur_music):
         # Button
         button_1 = pygame.Rect(500, 250, 200, 50)
         button_2 = pygame.Rect(100, 400, 200, 50)
+        button_3 = pygame.Rect(500, 400, 200, 50)
         solo_button.solo()
         # Text
         draw_text('Play', font3, BLACK, screen, 180, 265)
-        pygame.draw.rect(screen, MAGENTA, button_1)
+        pygame.draw.rect(screen, SEA, button_1)
         draw_text('Background', font3, BLACK, screen, 540, 265)
         pygame.draw.rect(screen, CYAN, button_2)
         draw_text('Setting', font3, BLACK, screen, 165, 415)
-        draw_text('Quit', font3, BLACK, screen, 575, 415)
+        pygame.draw.rect(screen, SALMON, button_3)
+        draw_text('High Score', font3, BLACK, screen, 545, 415)
+        draw_text('Quit', font3, BLACK, screen, 380, 555)
         # Choose
         if button_1.collidepoint((mx, my)):
             if click:
@@ -214,6 +220,9 @@ def main_menu(cur_music):
         if button_2.collidepoint((mx, my)):
             if click:
                 settings()
+        if button_3.collidepoint((mx, my)):
+            if click:
+                show_high_score_from_file("./data/highscore.txt")
         # Exit
         click = False
         for event in pygame.event.get():
@@ -284,23 +293,23 @@ def settings():
         button_8 = pygame.Rect(520, 300, 200, 50)
         button_9 = pygame.Rect(520, 400, 200, 50)
 
-        pygame.draw.rect(screen, BLUE, button_1)
+        pygame.draw.rect(screen, CYAN, button_1)
         draw_text('HCTS', font3, BLACK, screen, 150, 215)
-        pygame.draw.rect(screen, MAGENTA, button_2)
+        pygame.draw.rect(screen, (238, 220, 130), button_2)
         draw_text('Among Us', font3, BLACK, screen, 125, 315)
-        pygame.draw.rect(screen, CYAN, button_3)
+        pygame.draw.rect(screen, (255, 182, 193), button_3)
         draw_text('Don Xuan', font3, BLACK, screen, 130, 415)
-        pygame.draw.rect(screen, RED, button_4)
+        pygame.draw.rect(screen, (127, 255, 212), button_4)
         draw_text('In My Life', font3, BLACK, screen, 350, 215)
-        pygame.draw.rect(screen, GREEN, button_5)
+        pygame.draw.rect(screen, (238, 154, 73), button_5)
         draw_text('Renai Circulation', font3, BLACK, screen, 305, 315)
-        pygame.draw.rect(screen, MAGENTA, button_6)
+        pygame.draw.rect(screen, (240, 128, 128), button_6)
         draw_text('Lan Cuoi', font3, BLACK, screen, 355, 415)
-        pygame.draw.rect(screen, BLUE, button_7)
+        pygame.draw.rect(screen, (193, 255, 193), button_7)
         draw_text('Doraemon', font3, BLACK, screen, 565, 215)
-        pygame.draw.rect(screen, MAGENTA, button_8)
+        pygame.draw.rect(screen, (255, 128, 0), button_8)
         draw_text('Always With Me', font3, BLACK, screen, 540, 315)
-        pygame.draw.rect(screen, CYAN, button_9)
+        pygame.draw.rect(screen, (255, 106, 106 ), button_9)
         draw_text('Merry Go Ground', font3, BLACK, screen, 530, 415)
 
         if button_1.collidepoint((px, py)):
@@ -377,6 +386,52 @@ def settings():
         mainClock.tick(60)
 
 
+def best():
+    with open("./data/highscore.txt", "r") as f:
+        return f.read()
+
+def show_high_score_from_file(filename):
+    global click
+    running = True
+    while running:
+        screen.blit(background3, (0, 0))
+
+        # Set the initial high score to 0
+        high_score = 0
+
+        # Try to open the high score file and read the high score from it
+        try:
+            with open(filename, "r") as f:
+                high_score = int(f.read())
+        except FileNotFoundError:
+            high_score = 0
+        except ValueError:
+            high_score = 0
+        draw_text('High Score' + ': ' + str(high_score), font4, YELLOW, screen, 250, 300)
+
+        if music_back_button.return_music():
+            return main_menu(cur_music)
+
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
+
+        pygame.display.update()
+        mainClock.tick(60)
+
+def display_random_image(image_paths):
+    selected_image = random.choice(image_paths)
+    image = pygame.image.load(selected_image)
+    pygame.display.flip()
+
+    return image
+
+
 def main_game(cur_music, cur_bg):
     BURGER_BEGIN_SPEED = 6
     ACCELERATION = .1
@@ -388,6 +443,11 @@ def main_game(cur_music, cur_bg):
     point = 0
     lives = DOG_LIVES
     dog_speed = DOG_DEFAULT_SPEED
+
+    try:
+        high_score = int(best())
+    except:
+        high_score = 0
 
     # Load Music
     bark_sound = pygame.mixer.Sound("./sounds/achieve_complete.wav")
@@ -406,7 +466,23 @@ def main_game(cur_music, cur_bg):
     dog_rect = dog.get_rect()
     dog_rect.centerx = WINDOW_WIDTH / 2
     dog_rect.bottom = WINDOW_HEIGHT
-    meat = pygame.image.load("./images/apple.png")
+
+    # Create a list of file paths for the images
+    image_paths = ['./images/apple.png', './images/banana.png', './images/carrot.png',
+                   './images/coconut.png', './images/luffy.png', './images/kaido.png',
+                   './images/lemon.png', './images/trai_dao.png', './images/strawberry.png',
+                   './images/trai_cam.png', './images/watermelon.png']
+    # Load the images and store them in a list
+    images = []
+    for path in image_paths:
+        image = pygame.image.load(path)
+        images.append(image)
+    # Choose a random image
+    random_image = random.choice(images)
+
+    # meat = pygame.image.load("./images/apple.png")
+    random_image_rect = random_image.get_rect()
+    meat = random_image
     meat_rect = meat.get_rect()
 
     # Load Text
@@ -451,7 +527,6 @@ def main_game(cur_music, cur_bg):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
         # Control the Dog
         keys = pygame.key.get_pressed()
         if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and dog_rect.left > 0:
@@ -505,6 +580,12 @@ def main_game(cur_music, cur_bg):
         screen.blit(point_text, point_text_rect)
         screen.blit(live_text, live_text_rect)
         pygame.draw.line(screen, DARK_GREEN, (0, 97), (WINDOW_WIDTH, 97), 3)
+
+        # Check highscore
+        if (high_score < point):
+            high_score = point
+        with open("./data/highscore.txt", "w") as f:
+            f.write(str(high_score))
 
         # Check lose
         if lives == 0:
