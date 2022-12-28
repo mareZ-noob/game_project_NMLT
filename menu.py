@@ -65,10 +65,11 @@ class Button:
 
     def back(self):
         action = False
-        # mouse position
+
+        # Mouse position
         pos = pygame.mouse.get_pos()
 
-        # check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
+        # Check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
@@ -77,7 +78,7 @@ class Button:
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
-        # draw button on screen
+        # Draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         if action:
@@ -85,10 +86,11 @@ class Button:
 
     def exit(self):
         action1 = False
-        # mouse position
+
+        # Mouse position
         pos = pygame.mouse.get_pos()
 
-        # check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
+        # Check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
@@ -97,17 +99,18 @@ class Button:
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
-        # draw button on screen
+        # Draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action1
 
     def solo(self):
         action2 = False
-        # mouse position
+
+        # Mouse position
         pos = pygame.mouse.get_pos()
 
-        # check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
+        # Check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
@@ -116,17 +119,18 @@ class Button:
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
-        # draw button on screen
+        # Draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
         if action2 == True:
             main_game(cur_music, cur_bg)
 
     def return_music(self):
         action3 = False
-        # mouse position
+
+        # Mouse position
         pos = pygame.mouse.get_pos()
 
-        # check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
+        # Check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
@@ -135,17 +139,18 @@ class Button:
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
-        # draw button on screen
+        # Draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action3
 
     def choose_background(self):
         action4 = False
-        # mouse position
+
+        # Mouse position
         pos = pygame.mouse.get_pos()
 
-        # check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
+        # Check mouse over and clicked conditions, 0 right click, 1 middle click, 2 left click
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True
@@ -154,7 +159,7 @@ class Button:
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
-        # draw button on screen
+        # Draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
 
         return action4
@@ -195,15 +200,18 @@ def main_menu(cur_music):
         screen.blit(background3, (0, 0))
         draw_text('Game Menu', font4, YELLOW, screen, 290, 120)
         mx, my = pygame.mouse.get_pos()
+
         # Exit Button
         if exit_button.exit():
             pygame.quit()
             sys.exit()
+
         # Button
         button_1 = pygame.Rect(500, 250, 200, 50)
         button_2 = pygame.Rect(100, 400, 200, 50)
         button_3 = pygame.Rect(500, 400, 200, 50)
         solo_button.solo()
+
         # Text
         draw_text('Play', font3, BLACK, screen, 180, 265)
         pygame.draw.rect(screen, SEA, button_1)
@@ -213,6 +221,7 @@ def main_menu(cur_music):
         pygame.draw.rect(screen, SALMON, button_3)
         draw_text('High Score', font3, BLACK, screen, 545, 415)
         draw_text('Quit', font3, BLACK, screen, 380, 555)
+
         # Choose
         if button_1.collidepoint((mx, my)):
             if click:
@@ -223,6 +232,7 @@ def main_menu(cur_music):
         if button_3.collidepoint((mx, my)):
             if click:
                 show_high_score_from_file("./data/highscore.txt")
+
         # Exit
         click = False
         for event in pygame.event.get():
@@ -245,11 +255,15 @@ def options():
     global click
     running = True
     while running:
+        # Background
         screen.blit(background3, (0, 0))
+
+        # Back Button
         if music_back_button.return_music():
             return main_menu(cur_music)
         draw_text('Background', font4, YELLOW, screen, 290, 120)
 
+        # Select background
         if choose_bg_button.choose_background():
             cur_bg = background4
             return main_game(cur_music, cur_bg)
@@ -260,6 +274,7 @@ def options():
             cur_bg = background
             return main_game(cur_music, cur_bg)
 
+        # Quit
         click = False
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -277,12 +292,13 @@ def settings():
     global click, cur_music
     running = True
     while running:
+        # Background
         screen.blit(background3, (0, 0))
         draw_text('Setting', font4, YELLOW, screen, 335, 70)
         draw_text('Choose your music: ', font3, YELLOW, screen, 290, 150)
         px, py = pygame.mouse.get_pos()
 
-        # Button Trái, Khoảng cách, Chiều dài, Chiều rộng
+        # Button
         button_1 = pygame.Rect(80, 200, 200, 50)
         button_2 = pygame.Rect(80, 300, 200, 50)
         button_3 = pygame.Rect(80, 400, 200, 50)
@@ -293,6 +309,7 @@ def settings():
         button_8 = pygame.Rect(520, 300, 200, 50)
         button_9 = pygame.Rect(520, 400, 200, 50)
 
+        # Text & Music
         pygame.draw.rect(screen, CYAN, button_1)
         draw_text('HCTS', font3, BLACK, screen, 150, 215)
         pygame.draw.rect(screen, (238, 220, 130), button_2)
@@ -312,6 +329,7 @@ def settings():
         pygame.draw.rect(screen, (255, 106, 106 ), button_9)
         draw_text('Merry Go Ground', font3, BLACK, screen, 530, 415)
 
+        # Choose
         if button_1.collidepoint((px, py)):
             if click:
                 mixer.init()
@@ -367,9 +385,11 @@ def settings():
                 mixer.music.play(-1)
                 cur_music = './sounds/MerryGoRoundofLifeHowl_sMovingCastle.wav'
 
+        # Back button
         if music_back_button.return_music():
             return main_menu(cur_music)
 
+        # Quit
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -386,6 +406,7 @@ def settings():
         mainClock.tick(60)
 
 
+# Read from file
 def best():
     with open("./data/highscore.txt", "r") as f:
         return f.read()
@@ -394,6 +415,7 @@ def show_high_score_from_file(filename):
     global click
     running = True
     while running:
+        # Background
         screen.blit(background3, (0, 0))
 
         # Set the initial high score to 0
@@ -409,6 +431,7 @@ def show_high_score_from_file(filename):
             high_score = 0
         draw_text('High Score' + ': ' + str(high_score), font4, YELLOW, screen, 250, 300)
 
+        # Back button
         if music_back_button.return_music():
             return main_menu(cur_music)
 
@@ -424,32 +447,25 @@ def show_high_score_from_file(filename):
         pygame.display.update()
         mainClock.tick(60)
 
-def display_random_image(image_paths):
-    selected_image = random.choice(image_paths)
-    image = pygame.image.load(selected_image)
-    pygame.display.flip()
-
-    return image
-
 
 def main_game(cur_music, cur_bg):
-    BURGER_BEGIN_SPEED = 6
+    FALL_BEGIN_SPEED = 6
     ACCELERATION = .1
-    DOG_DEFAULT_SPEED = 8
-    DOG_BOOST_SPEED = 20
-    DOG_BEGIN_BOOST_LEVEL = 100
-    DOG_LIVES = 100
-    boost_level = DOG_BEGIN_BOOST_LEVEL
+    BOWL_DEFAULT_SPEED = 8
+    BOWL_BOOST_SPEED = 20
+    BOWL_BEGIN_BOOST_LEVEL = 100
+    BOWL_LIVES = 100
+    boost_level = BOWL_BEGIN_BOOST_LEVEL
     point = 0
-    lives = DOG_LIVES
-    dog_speed = DOG_DEFAULT_SPEED
+    lives = BOWL_LIVES
+    bowl_speed = BOWL_DEFAULT_SPEED
 
     try:
         high_score = int(best())
     except:
         high_score = 0
 
-    # Load Music
+    # Load music
     bark_sound = pygame.mixer.Sound("./sounds/achieve_complete.wav")
     bark_sound.set_volume(0.4)
     miss_sound = pygame.mixer.Sound("./sounds/siu.wav")
@@ -457,33 +473,34 @@ def main_game(cur_music, cur_bg):
     game_over_sound = pygame.mixer.Sound("./sounds/gameover.wav")
     game_win_sound = pygame.mixer.Sound("./sounds/goodresult.wav")
     pygame.mixer.music.load(cur_music)
-    # pygame.mixer.music.set_volume(.4)
 
-    # Load DOG
-    right_dog = pygame.image.load("./images/bowl.png")
-    left_dog = pygame.image.load("./images/bowl.png")
-    dog = right_dog
-    dog_rect = dog.get_rect()
-    dog_rect.centerx = WINDOW_WIDTH / 2
-    dog_rect.bottom = WINDOW_HEIGHT
+    # Load bowl
+    right_bowl = pygame.image.load("./images/bowl.png")
+    left_bowl = pygame.image.load("./images/bowl.png")
+    bowl = right_bowl
+    bowl_rect = bowl.get_rect()
+    bowl_rect.centerx = WINDOW_WIDTH / 2
+    bowl_rect.bottom = WINDOW_HEIGHT
 
     # Create a list of file paths for the images
     image_paths = ['./images/apple.png', './images/banana.png', './images/carrot.png',
                    './images/coconut.png', './images/luffy.png', './images/kaido.png',
                    './images/lemon.png', './images/trai_dao.png', './images/strawberry.png',
                    './images/trai_cam.png', './images/watermelon.png']
+
     # Load the images and store them in a list
     images = []
     for path in image_paths:
         image = pygame.image.load(path)
         images.append(image)
+
     # Choose a random image
     random_image = random.choice(images)
 
-    # meat = pygame.image.load("./images/apple.png")
+    # fruit = pygame.image.load("./images/apple.png")
     random_image_rect = random_image.get_rect()
-    meat = random_image
-    meat_rect = meat.get_rect()
+    fruit = random_image
+    fruit_rect = fruit.get_rect()
 
     # Load Text
     font = pygame.font.Font('./fonts/font.ttf', 32)
@@ -510,69 +527,70 @@ def main_game(cur_music, cur_bg):
     boost_text_rect.centerx = WINDOW_WIDTH // 2
     boost_text_rect.y = 32
 
-    # BEGIN GAME
+    # Begin game
     pygame.mixer.music.play(1) # -1 -> delete 425 -> 427, 531 -> 554.
-    boost_level = DOG_BEGIN_BOOST_LEVEL
+    boost_level = BOWL_BEGIN_BOOST_LEVEL
     point = 0
-    lives = DOG_LIVES
-    dog_speed = DOG_DEFAULT_SPEED
-    dog_rect.centerx = WINDOW_WIDTH / 2
-    dog_rect.bottom = WINDOW_HEIGHT
-    meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
-    burger_speed = BURGER_BEGIN_SPEED
+    lives = BOWL_LIVES
+    bowl_speed = BOWL_DEFAULT_SPEED
+    bowl_rect.centerx = WINDOW_WIDTH / 2
+    bowl_rect.bottom = WINDOW_HEIGHT
+    fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+    fall_speed = FALL_BEGIN_SPEED
 
-    # MAIN GAME LOOP
+    # Main game loop
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-        # Control the Dog
+
+        # Control the bowl
         keys = pygame.key.get_pressed()
-        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and dog_rect.left > 0:
-            dog_rect.x -= dog_speed
-            dog = left_dog
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and bowl_rect.left > 0:
+            bowl_rect.x -= bowl_speed
+            bowl = left_bowl
 
-        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and dog_rect.right < WINDOW_WIDTH:
-            dog_rect.x += dog_speed
-            dog = right_dog
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and bowl_rect.right < WINDOW_WIDTH:
+            bowl_rect.x += bowl_speed
+            bowl = right_bowl
 
-        if (keys[pygame.K_UP] or keys[pygame.K_w]) and dog_rect.top > 100:
-            dog_rect.y -= dog_speed
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and bowl_rect.top > 100:
+            bowl_rect.y -= bowl_speed
 
-        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and dog_rect.bottom < WINDOW_HEIGHT:
-            dog_rect.y += dog_speed
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and bowl_rect.bottom < WINDOW_HEIGHT:
+            bowl_rect.y += bowl_speed
 
         if keys[pygame.K_SPACE] and boost_level > 0:
             boost_level -= 1
-            if dog_speed != DOG_BOOST_SPEED:
+            if bowl_speed != BOWL_BOOST_SPEED:
                 boost_sound.play()
-            dog_speed = DOG_BOOST_SPEED
+            bowl_speed = BOWL_BOOST_SPEED
 
         else:
-            dog_speed = DOG_DEFAULT_SPEED
+            bowl_speed = BOWL_DEFAULT_SPEED
             boost_sound.stop()
 
-        # Move the Meat
-        meat_rect.y += burger_speed
+        # Move the fruit
+        fruit_rect.y += fall_speed
 
-        # Check Meat
-        if meat_rect.colliderect(dog_rect):
+        # Check fruit
+        if fruit_rect.colliderect(bowl_rect):
             point += 1
-            burger_speed += ACCELERATION
+            fall_speed += ACCELERATION
             boost_level += 50
-            meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
             bark_sound.play()
-        if meat_rect.y > WINDOW_HEIGHT:
+        if fruit_rect.y > WINDOW_HEIGHT:
             miss_sound.play()
             lives -= 1
-            meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
 
-        # Refresh the SCREEN
+        # Refresh the screen
         screen.blit(cur_bg, (0, 0))
         back_button.back()
 
-        # Load Text ReRender
+        # Load text rerender
         point_text = font.render(f'Point:  {point}', True, GREEN, BLACK)
         boost_text = font.render(f'BOOST ENERGY:  {boost_level}', True, ORANGE, BLACK)
         live_text = font.render(f'Lives:  {lives}', True, GREEN, BLACK)
@@ -603,14 +621,14 @@ def main_game(cur_music, cur_bg):
                             pause = False
                             game_over_sound.stop()
                             pygame.mixer.music.play(-1)
-                            boost_level = DOG_BEGIN_BOOST_LEVEL
+                            boost_level = BOWL_BEGIN_BOOST_LEVEL
                             point = 0
-                            lives = DOG_LIVES
-                            dog_speed = DOG_DEFAULT_SPEED
-                            dog_rect.centerx = WINDOW_WIDTH / 2
-                            dog_rect.bottom = WINDOW_HEIGHT
-                            meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
-                            burger_speed = BURGER_BEGIN_SPEED
+                            lives = BOWL_LIVES
+                            bowl_speed = BOWL_DEFAULT_SPEED
+                            bowl_rect.centerx = WINDOW_WIDTH / 2
+                            bowl_rect.bottom = WINDOW_HEIGHT
+                            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+                            fall_speed = FALL_BEGIN_SPEED
 
         # Check win
         if not pygame.mixer.music.get_busy():
@@ -628,20 +646,20 @@ def main_game(cur_music, cur_bg):
                             stop = False
                             game_win_sound.stop()
                             pygame.mixer.music.play(-1)
-                            boost_level = DOG_BEGIN_BOOST_LEVEL
+                            boost_level = BOWL_BEGIN_BOOST_LEVEL
                             point = 0
-                            lives = DOG_LIVES
-                            dog_speed = DOG_DEFAULT_SPEED
-                            dog_rect.centerx = WINDOW_WIDTH / 2
-                            dog_rect.bottom = WINDOW_HEIGHT
-                            meat_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
-                            burger_speed = BURGER_BEGIN_SPEED
+                            lives = BOWL_LIVES
+                            bowl_speed = BOWL_DEFAULT_SPEED
+                            bowl_rect.centerx = WINDOW_WIDTH / 2
+                            bowl_rect.bottom = WINDOW_HEIGHT
+                            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+                            fall_speed = FALL_BEGIN_SPEED
 
-        # Load the dog
-        screen.blit(dog, dog_rect)
-        screen.blit(meat, meat_rect)
+        # Load the bowl
+        screen.blit(bowl, bowl_rect)
+        screen.blit(fruit, fruit_rect)
 
-        # UPDATE DISPLAY AND SET CLOCK
+        # Update display and set clock
         pygame.display.update()
         mainClock.tick(60)
 
