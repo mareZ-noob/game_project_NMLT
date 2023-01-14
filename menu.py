@@ -13,7 +13,7 @@ pygame.display.set_caption('Catching Fruits')
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 650
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
-font3 = pygame.font.SysFont(None, 32)
+font3 = pygame.font.SysFont('None', 32)
 font4 = pygame.font.Font('./fonts/freesansbold.ttf', 40)
 
 # Load background
@@ -48,10 +48,11 @@ MAGENTA = (255, 0, 255)
 
 DARK_GREEN = (10, 50, 10)
 ORANGE = (238, 141, 70)
-SKY = (0,191,255)
+SKY = (0, 191, 255)
 
-SEA = (84,255,159)
-SALMON = (250,128,114)
+SEA = (84, 255, 159)
+SALMON = (250, 128, 114)
+
 
 # Class button
 class Button:
@@ -121,7 +122,7 @@ class Button:
 
         # Draw button on screen
         screen.blit(self.image, (self.rect.x, self.rect.y))
-        if action2 == True:
+        if action2:
             main_game(cur_music, cur_bg)
 
     def return_music(self):
@@ -174,7 +175,6 @@ choose_bg_button = Button(100, 300, choose_bg_img, 0.2)
 choose_bg_button2 = Button(300, 300, choose_bg_img2, 0.2)
 choose_bg_button3 = Button(500, 300, choose_bg_img3, 0.2)
 
-
 # Current music
 cur_music = './sounds/AlwaysWithMe.wav'
 
@@ -217,12 +217,12 @@ def main_menu(cur_music):
         pygame.draw.rect(screen, SEA, button_1)
         draw_text('Background', font3, BLACK, screen, 540, 265)
         pygame.draw.rect(screen, CYAN, button_2)
-        draw_text('Setting', font3, BLACK, screen, 165, 415)
+        draw_text('Settings', font3, BLACK, screen, 155, 415)
         pygame.draw.rect(screen, SALMON, button_3)
         draw_text('High Score', font3, BLACK, screen, 545, 415)
         draw_text('Quit', font3, BLACK, screen, 380, 555)
 
-        # Choose
+        # Chooses
         if button_1.collidepoint((mx, my)):
             if click:
                 options()
@@ -246,6 +246,53 @@ def main_menu(cur_music):
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
+
+        pygame.display.update()
+        mainClock.tick(60)
+
+
+def settings():
+    global click
+    running = True
+    while running:
+        # Custom
+        screen.blit(background3, (0, 0))
+        draw_text('Settings', font4, YELLOW, screen, 290, 120)
+
+        # Back Button
+        if music_back_button.return_music():
+            return main_menu(cur_music)
+        mx, my = pygame.mouse.get_pos()
+
+        # Button
+        button_1 = pygame.Rect(500, 250, 200, 50)
+        button_2 = pygame.Rect(100, 400, 200, 50)
+
+        # Text
+        draw_text('Mode', font3, BLACK, screen, 180, 265)
+        pygame.draw.rect(screen, SEA, button_1)
+        draw_text('Music', font3, BLACK, screen, 540, 265)
+        pygame.draw.rect(screen, CYAN, button_2)
+
+        # Choose
+        if button_1.collidepoint((mx, my)):
+            if click:
+                two_players()
+        if button_2.collidepoint((mx, my)):
+            if click:
+                music()
+
+        # Exit
+        click = False
+        # Quit
+        click = False
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    running = False
 
         pygame.display.update()
         mainClock.tick(60)
@@ -288,13 +335,13 @@ def options():
         mainClock.tick(60)
 
 
-def settings():
+def music():
     global click, cur_music
     running = True
     while running:
         # Background
         screen.blit(background3, (0, 0))
-        draw_text('Setting', font4, YELLOW, screen, 335, 70)
+        draw_text('Music', font4, YELLOW, screen, 345, 70)
         draw_text('Choose your music: ', font3, YELLOW, screen, 290, 150)
         px, py = pygame.mouse.get_pos()
 
@@ -326,7 +373,7 @@ def settings():
         draw_text('Doraemon', font3, BLACK, screen, 565, 215)
         pygame.draw.rect(screen, (255, 128, 0), button_8)
         draw_text('Always With Me', font3, BLACK, screen, 540, 315)
-        pygame.draw.rect(screen, (255, 106, 106 ), button_9)
+        pygame.draw.rect(screen, (255, 106, 106), button_9)
         draw_text('Merry Go Ground', font3, BLACK, screen, 530, 415)
 
         # Choose
@@ -411,6 +458,7 @@ def best():
     with open("./data/highscore.txt", "r") as f:
         return f.read()
 
+
 def show_high_score_from_file(filename):
     global click
     running = True
@@ -460,6 +508,7 @@ def main_game(cur_music, cur_bg):
     lives = BOWL_LIVES
     bowl_speed = BOWL_DEFAULT_SPEED
 
+    # Open file
     try:
         high_score = int(best())
     except:
@@ -498,7 +547,6 @@ def main_game(cur_music, cur_bg):
     random_image = random.choice(images)
 
     # fruit = pygame.image.load("./images/apple.png")
-    random_image_rect = random_image.get_rect()
     fruit = random_image
     fruit_rect = fruit.get_rect()
 
@@ -528,7 +576,7 @@ def main_game(cur_music, cur_bg):
     boost_text_rect.y = 32
 
     # Begin game
-    pygame.mixer.music.play(1) # -1 -> delete 425 -> 427, 531 -> 554.
+    pygame.mixer.music.play(1)
     boost_level = BOWL_BEGIN_BOOST_LEVEL
     point = 0
     lives = BOWL_LIVES
@@ -600,7 +648,7 @@ def main_game(cur_music, cur_bg):
         pygame.draw.line(screen, DARK_GREEN, (0, 97), (WINDOW_WIDTH, 97), 3)
 
         # Check highscore
-        if (high_score < point):
+        if high_score < point:
             high_score = point
         with open("./data/highscore.txt", "w") as f:
             f.write(str(high_score))
@@ -657,6 +705,316 @@ def main_game(cur_music, cur_bg):
 
         # Load the bowl
         screen.blit(bowl, bowl_rect)
+        screen.blit(fruit, fruit_rect)
+
+        # Update display and set clock
+        pygame.display.update()
+        mainClock.tick(60)
+
+    pygame.quit()
+
+
+def two_players():
+    FALL_BEGIN_SPEED = 6
+    ACCELERATION = .1
+    BOWL_LIVES = 100
+    lives = BOWL_LIVES
+
+    # Player 1
+    BOWL_DEFAULT_SPEED = 8
+    BOWL_BOOST_SPEED = 20
+    BOWL_BEGIN_BOOST_LEVEL = 100
+    boost_level = BOWL_BEGIN_BOOST_LEVEL
+    point = 0
+    bowl_speed = BOWL_DEFAULT_SPEED
+
+    # Player 2
+    BOWL_BOOST_SPEED1 = 20
+    BOWL_BEGIN_BOOST_LEVEL1 = 100
+    boost_level1 = BOWL_BEGIN_BOOST_LEVEL1
+    point1 = 0
+    bowl_speed1 = BOWL_DEFAULT_SPEED
+
+    # Load music
+    bark_sound = pygame.mixer.Sound("./sounds/achieve_complete.wav")
+    bark_sound.set_volume(0.4)
+    miss_sound = pygame.mixer.Sound("./sounds/siu.wav")
+    boost_sound = pygame.mixer.Sound("./sounds/quickswhooshingnoise.wav")
+    game_over_sound = pygame.mixer.Sound("./sounds/gameover.wav")
+    game_win_sound = pygame.mixer.Sound("./sounds/goodresult.wav")
+    pygame.mixer.music.load(cur_music)
+
+    # Load bowl
+    right_bowl = pygame.image.load("./images/bowl.png")
+    left_bowl = pygame.image.load("./images/bowl.png")
+    bowl = right_bowl
+    bowl_rect = bowl.get_rect()
+    bowl_rect.centerx = WINDOW_WIDTH / 2
+    bowl_rect.bottom = WINDOW_HEIGHT
+
+    # Load bowl1
+    right_bowl1 = pygame.image.load("./images/bowl.png")
+    left_bowl1 = pygame.image.load("./images/bowl.png")
+    bowl1 = right_bowl1
+    bowl_rect1 = bowl1.get_rect()
+    bowl_rect1.centerx = WINDOW_WIDTH / 2
+    bowl_rect1.bottom = WINDOW_HEIGHT
+
+    # Create a list of file paths for the images
+    image_paths = ['./images/apple.png', './images/banana.png', './images/carrot.png',
+                   './images/coconut.png', './images/luffy.png', './images/kaido.png',
+                   './images/lemon.png', './images/trai_dao.png', './images/strawberry.png',
+                   './images/trai_cam.png', './images/watermelon.png']
+
+    # Load the images and store them in a list
+    images = []
+    for path in image_paths:
+        image = pygame.image.load(path)
+        images.append(image)
+
+    # Choose a random image
+    random_image = random.choice(images)
+
+    # fruit = pygame.image.load("./images/apple.png")
+    fruit = random_image
+    fruit_rect = fruit.get_rect()
+
+    # Load Text
+    font = pygame.font.Font('./fonts/font.ttf', 32)
+    font2 = pygame.font.Font('./fonts/font.ttf', 46)
+
+    # Point Player 1
+    point_text = font.render(f'Point_P1:  {point}', True, GREEN, BLACK)
+    point_text_rect = point_text.get_rect()
+    point_text_rect.topleft = (132, 20)
+
+    point_text1 = font.render(f'Point_P2:  {point1}', True, GREEN, BLACK)
+    point_text_rect1 = point_text1.get_rect()
+    point_text_rect1.topleft = (132, 70)
+
+    # Lives Player 2
+    live_text = font.render(f'Lives_P1:  {lives}', True, GREEN, BLACK)
+    live_text_rect = live_text.get_rect()
+    live_text_rect.topright = (668, 32)
+
+    # P1 win
+    P1_win = font2.render("PLAYER 1 WIN. CONGRATULATE PLAYER 1!", True, ORANGE, GREEN)
+    P1_win_rect = P1_win.get_rect()
+    P1_win_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
+
+    # P2 win
+    P2_win = font2.render("PLAYER 2 WIN. CONGRATULATE PLAYER 2!", True, ORANGE, GREEN)
+    P2_win_rect = P2_win.get_rect()
+    P2_win_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
+
+    # Draw
+    tie = font2.render("DRAW!", True, ORANGE, GREEN)
+    tie_rect = P2_win.get_rect()
+    tie_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
+
+    game_over_text = font2.render("GAME OVER, PRESS ENTER TO CONTINUE!", True, ORANGE, GREEN)
+    game_over_text_rect = game_over_text.get_rect()
+    game_over_text_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
+
+    boost_text = font.render(f'BOOST ENERGY_P1:  {boost_level}', True, ORANGE, BLACK)
+    boost_text_rect = boost_text.get_rect()
+    boost_text_rect.centerx = WINDOW_WIDTH // 2
+    boost_text_rect.y = 25
+
+    boost_text1 = font.render(f'BOOST ENERGY_P2:  {boost_level1}', True, ORANGE, BLACK)
+    boost_text_rect1 = boost_text1.get_rect()
+    boost_text_rect1.centerx = WINDOW_WIDTH // 2
+    boost_text_rect1.y = 60
+
+    # Begin game
+    pygame.mixer.music.play(1)
+    boost_level = BOWL_BEGIN_BOOST_LEVEL
+    point = 0
+    lives = BOWL_LIVES
+    bowl_speed = BOWL_DEFAULT_SPEED
+    bowl_rect.centerx = WINDOW_WIDTH / 2
+    bowl_rect.bottom = WINDOW_HEIGHT
+    fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+    fall_speed = FALL_BEGIN_SPEED
+    boost_level1 = BOWL_BEGIN_BOOST_LEVEL1
+    point1 = 0
+    bowl_speed1 = BOWL_DEFAULT_SPEED
+    bowl_rect1.centerx = WINDOW_WIDTH / 2
+    bowl_rect1.bottom = WINDOW_HEIGHT
+    fall_speed1 = FALL_BEGIN_SPEED
+
+    # Main game loop
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+        # Control the bowl
+        keys = pygame.key.get_pressed()
+        keys1 = pygame.key.get_pressed()
+
+        # Player 1
+        if (keys[pygame.K_s]) and bowl_rect.left > 0:
+            bowl_rect.x -= bowl_speed
+            bowl = left_bowl
+
+        if (keys[pygame.K_f]) and bowl_rect.right < WINDOW_WIDTH:
+            bowl_rect.x += bowl_speed
+            bowl = right_bowl
+
+        if (keys[pygame.K_e]) and bowl_rect.top > 100:
+            bowl_rect.y -= bowl_speed
+
+        if (keys[pygame.K_d]) and bowl_rect.bottom < WINDOW_HEIGHT:
+            bowl_rect.y += bowl_speed
+
+        if keys[pygame.K_t] and boost_level > 0:
+            boost_level -= 1
+            if bowl_speed != BOWL_BOOST_SPEED:
+                boost_sound.play()
+            bowl_speed = BOWL_BOOST_SPEED
+
+        # Player 2
+        if (keys1[pygame.K_LEFT]) and bowl_rect1.left > 0:
+            bowl_rect1.x -= bowl_speed1
+            bowl1 = left_bowl1
+
+        if (keys1[pygame.K_RIGHT]) and bowl_rect1.right < WINDOW_WIDTH:
+            bowl_rect1.x += bowl_speed1
+            bowl1 = right_bowl1
+
+        if (keys1[pygame.K_UP]) and bowl_rect1.top > 100:
+            bowl_rect1.y -= bowl_speed1
+
+        if (keys1[pygame.K_DOWN]) and bowl_rect1.bottom < WINDOW_HEIGHT:
+            bowl_rect1.y += bowl_speed1
+
+        if keys1[pygame.K_p] and boost_level1 > 0:
+            boost_level1 -= 1
+            if bowl_speed1 != BOWL_BOOST_SPEED1:
+                boost_sound.play()
+            bowl_speed1 = BOWL_BOOST_SPEED1
+
+        else:
+            bowl_speed = BOWL_DEFAULT_SPEED
+            bowl_speed1 = BOWL_DEFAULT_SPEED
+            boost_sound.stop()
+
+        # Move the fruit
+        fruit_rect.y += fall_speed
+
+        # Check fruit
+        if fruit_rect.colliderect(bowl_rect):
+            point += 1
+            fall_speed += ACCELERATION
+            boost_level += 50
+            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+            bark_sound.play()
+        if fruit_rect.colliderect(bowl_rect1):
+            point1 += 1
+            fall_speed += ACCELERATION
+            boost_level1 += 50
+            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+            bark_sound.play()
+        if fruit_rect.y > WINDOW_HEIGHT:
+            miss_sound.play()
+            lives -= 1
+            fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+
+            # Check lose
+            if lives == 0:
+                pause = True
+                game_over_sound.play()
+                while pause:
+                    screen.blit(game_over_text, game_over_text_rect)
+                    pygame.display.update()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
+                            pause = False
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_RETURN:
+                                pause = False
+                                game_over_sound.stop()
+                                pygame.mixer.music.play(-1)
+                                boost_level = BOWL_BEGIN_BOOST_LEVEL
+                                point = 0
+                                lives = BOWL_LIVES
+                                bowl_speed = BOWL_DEFAULT_SPEED
+                                bowl_rect.centerx = WINDOW_WIDTH / 2
+                                bowl_rect.bottom = WINDOW_HEIGHT
+                                fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+                                fall_speed = FALL_BEGIN_SPEED
+
+                                boost_level1 = BOWL_BEGIN_BOOST_LEVEL1
+                                point1 = 0
+                                bowl_speed1 = BOWL_DEFAULT_SPEED
+                                bowl_rect1.centerx = WINDOW_WIDTH / 2
+                                bowl_rect1.bottom = WINDOW_HEIGHT
+                                fall_speed1 = FALL_BEGIN_SPEED
+
+            # Check win
+            if not pygame.mixer.music.get_busy():
+                stop = True
+                game_win_sound.play()
+                while stop:
+                    if point > point1:
+                        screen.blit(P1_win, P1_win_rect)
+                        pygame.display.update()
+                    elif point1 > point:
+                        screen.blit(P2_win, P2_win_rect)
+                        pygame.display.update()
+                    else:
+                        screen.blit(tie, tie_rect)
+                        pygame.display.update()
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
+                            stop = False
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_f:
+                                stop = False
+                                game_win_sound.stop()
+                                pygame.mixer.music.play(-1)
+                                boost_level = BOWL_BEGIN_BOOST_LEVEL
+                                point = 0
+                                lives = BOWL_LIVES
+                                bowl_speed = BOWL_DEFAULT_SPEED
+                                bowl_rect.centerx = WINDOW_WIDTH / 2
+                                bowl_rect.bottom = WINDOW_HEIGHT
+                                fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+                                fall_speed = FALL_BEGIN_SPEED
+
+                                boost_level1 = BOWL_BEGIN_BOOST_LEVEL1
+                                point1 = 0
+                                bowl_speed1 = BOWL_DEFAULT_SPEED
+                                bowl_rect1.centerx = WINDOW_WIDTH / 2
+                                bowl_rect1.bottom = WINDOW_HEIGHT
+                                fruit_rect.bottomleft = (random.randint(0, WINDOW_WIDTH - 72), 100)
+                                fall_speed1 = FALL_BEGIN_SPEED
+
+        # Refresh the screen
+        screen.blit(cur_bg, (0, 0))
+        back_button.back()
+
+        # Load text rerender
+        point_text = font.render(f'Point_P1:  {point}', True, GREEN, BLACK)
+        boost_text = font.render(f'BOOST ENERGY_P1:  {boost_level}', True, ORANGE, BLACK)
+        live_text = font.render(f'Lives_P1:  {lives}', True, GREEN, BLACK)
+        screen.blit(boost_text, boost_text_rect)
+        screen.blit(point_text, point_text_rect)
+        screen.blit(live_text, live_text_rect)
+
+        point_text1 = font.render(f'Point_P2:  {point1}', True, GREEN, BLACK)
+        boost_text1 = font.render(f'BOOST ENERGY_P2:  {boost_level1}', True, ORANGE, BLACK)
+        screen.blit(boost_text1, boost_text_rect1)
+        screen.blit(point_text1, point_text_rect1)
+        pygame.draw.line(screen, DARK_GREEN, (0, 97), (WINDOW_WIDTH, 97), 3)
+
+        # Load the bowl
+        screen.blit(bowl, bowl_rect)
+        screen.blit(bowl1, bowl_rect1)
         screen.blit(fruit, fruit_rect)
 
         # Update display and set clock
